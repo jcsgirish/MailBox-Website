@@ -5,6 +5,7 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ComposeMail from './Components/Pages/ComposeMail';
 import Inbox from './Components/Pages/Inbox';
+import Sent from './Components/Pages/Sent';
 
 
 function App() {
@@ -17,13 +18,18 @@ function App() {
           <Route exact path='/'>
             <Login />
           </Route>
-          <Route exact path='/profile'>
-            <ComposeMail />
+          <Route exact path='/composemail'>
+            {token && <ComposeMail />}
+            {!token && <Redirect to='/' />}
+          </Route>
+          <Route exact path='/sent'>
+            {token && <Sent />}
+            {!token && <Redirect to='/' />}
           </Route>
           <Route exact path='/inbox'>
             {token && <Inbox />}
             {!token && <Redirect to='/' />}
-            </Route>
+          </Route>
         </Switch>
       </div>
     </>

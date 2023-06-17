@@ -6,7 +6,9 @@ const inititalAuthState = {
     user:localStorage.getItem("user")
 }
 const inititalMessageState = {
-    messages: []
+    messages: [],
+    sentMessages:[],
+    unreadMessages:0
 }
 const authSlice = createSlice({
     name: "authentication",
@@ -26,7 +28,13 @@ const messageSlice = createSlice({
     reducers: {
         setMessages(state, action) {
             state.messages = action.payload;
-        }
+        },
+        setSentMessages(state, action) {
+            state.sentMessages = action.payload;
+        },
+        setUnreadMessages(state, action) {
+            state.unreadMessages = action.payload;
+        },
     }
 })
 
