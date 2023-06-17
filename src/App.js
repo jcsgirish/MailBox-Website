@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import Navigationbar from './Components/Layout/NavBar';
+import Login from './Components/Pages/LoginPage';
+import './App.css'
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import DummyScreen from './Components/Layout/DummyScreen';
+import { useSelector } from 'react-redux';
+
+
 
 function App() {
+  const token = useSelector(state => state.authentication.token)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navigationbar />
+      <BrowserRouter>
+        <Switch>
+          <Route exact path='/'>
+            <Login />
+          </Route>
+          <Route exact path='/profile'>
+            {token && <DummyScreen />}
+            {!token && <Redirect to='/' />}
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    </>
   );
 }
 
