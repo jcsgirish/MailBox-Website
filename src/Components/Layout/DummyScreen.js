@@ -1,8 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef} from 'react';
 import './DummyScreen'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { Button } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+
 function removeSpecialChar(mail) {
   let newMail = "";
   for (let i = 0; i < mail.length; i++) {
