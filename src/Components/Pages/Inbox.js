@@ -103,7 +103,7 @@ function Inbox() {
             keys.forEach((key) => {
               newMessageArray.unshift({ ...data[key], name: key })
             });
-            console.log(newMessageArray);
+            
             dispatch(messageActions.setMessages(newMessageArray));
             dispatch(messageActions.setUnreadMessages(countUnreadMessages(newMessageArray)));
           }
@@ -116,11 +116,11 @@ function Inbox() {
     }
     let fetching = setTimeout(() => {
       fetchMessages();
-    }, 2000);
+    }, 1000);
     return () => {
       clearTimeout(fetching);
     }
-  }, [messages])
+  }, [messages,user,dispatch])
 
 
   return (
