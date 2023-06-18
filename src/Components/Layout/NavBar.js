@@ -25,10 +25,10 @@ const Navigationbar = () => {
             <Container>
                 <Navbar.Brand exact to="/">MaiL BoX</Navbar.Brand>
                 <Nav className="me-auto">
-                    <Nav.Link as={Link} exact to="/">Home</Nav.Link>
-                    <Nav.Link as={Link} exact to="/inbox">Inbox</Nav.Link>
-                    <Nav.Link as={Link} exact to="/composemail">Send Mail</Nav.Link>
-                    <Nav.Link as={Link} exact to="/sent">Sent</Nav.Link>
+                <Nav.Link as={Link} to="/">Home</Nav.Link>
+<Nav.Link as={Link} to="/inbox">Inbox</Nav.Link>
+<Nav.Link as={Link}  to="/composemail">Send Mail</Nav.Link>
+<Nav.Link as={Link}  to="/sent">Sent</Nav.Link>
                 </Nav>
             </Container>
             <Navbar.Collapse className="justify-content-end">

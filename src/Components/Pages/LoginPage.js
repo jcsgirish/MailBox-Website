@@ -107,7 +107,7 @@ const Login = () => {
                 <Button variant="primary" className='w-100' type="submit" onClick={handleLogin}>
                     {!login ? "Sign Up" : "Log In"}
                 </Button>
-                {login && <p className='text-center text-primary'>Forget password?</p>}
+                {login && <p className='text-center text-primary'></p>}
                 <Button variant="outline-success" className='my-2 w-100' onClick={toggleLogin}>
                     {!login ? "Have an account?Login" : "Haven't Account?Sign Up"}
                 </Button>

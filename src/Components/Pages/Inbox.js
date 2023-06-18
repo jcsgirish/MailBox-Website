@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
-import './Inbox.css'
+import './Inbox'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { Accordion, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { messageActions } from '../../Store';
 import { useHistory } from 'react-router-dom';
 import { Dot } from 'react-bootstrap-icons';
+import useHttp from '../Hooks/use-http';
 function removeSpecialChar(mail) {
   let newMail = "";
   for (let i = 0; i < mail.length; i++) {
@@ -30,18 +31,17 @@ function Inbox() {
   const messages = useSelector(state => state.messages.messages);
   const dispatch = useDispatch();
   const history = useHistory();
+
+
   const handleCompose = (e) => {
     e.preventDefault();
     history.push("/composemail");
   }
 
   const handleReadedMessage = async (msg) => {
-    // console.log(msg)
-    // console.log("clicked");
-    // console.log(user, msg.name);
     try {
       let responce = await fetch(
-        `mail/${user}/${msg.name}.json`,
+        `https://mail-748ee-default-rtdb.firebaseio.com/mail/${user}/${msg.name}.json`,
         {
           method: 'PATCH',
           headers: {
@@ -51,7 +51,6 @@ function Inbox() {
         }
       )
       if (responce.ok) {
-        // alert("Readed")
       } else {
         throw new Error("Failed to Read mail")
       }
@@ -61,10 +60,9 @@ function Inbox() {
   }
 
   const handleDelete = async (msg) => {
-    // console.log("deleted");
     try {
       let responce = await fetch(
-        `https://mailbox-c0f00-default-rtdb.firebaseio.com/mail/${user}/${msg.name}.json`,
+        `https://mail-748ee-default-rtdb.firebaseio.com/mail/${user}/${msg.name}.json`,
         {
           method: 'DELETE',
           headers: {
@@ -86,7 +84,7 @@ function Inbox() {
     async function fetchMessages() {
       try {
         let responce = await fetch(
-          `https://mailbox-c0f00-default-rtdb.firebaseio.com/mail/${(user)}.json`,
+          `https://mail-748ee-default-rtdb.firebaseio.com/mail/${(user)}.json`,
           {
             method: 'GET',
             headers: {
@@ -96,7 +94,6 @@ function Inbox() {
         )
         if (responce.ok) {
           let data = await responce.json();
-          // console.log("data", data);
           let newMessageArray = [];
           if (data == null) {
             newMessageArray = [];
@@ -104,11 +101,9 @@ function Inbox() {
             dispatch(messageActions.setUnreadMessages(countUnreadMessages(newMessageArray)));
           } else {
             const keys = Object.keys(data);
-            // console.log("keys", keys);
             keys.forEach((key) => {
               newMessageArray.unshift({ ...data[key], name: key })
             });
-
             console.log(newMessageArray);
             dispatch(messageActions.setMessages(newMessageArray));
             dispatch(messageActions.setUnreadMessages(countUnreadMessages(newMessageArray)));
@@ -122,11 +117,12 @@ function Inbox() {
     }
     let fetching = setTimeout(() => {
       fetchMessages();
-    }, 3000);
+    }, 2000);
     return () => {
       clearTimeout(fetching);
     }
-  }, [messages,user,dispatch])
+  }, [messages, user, dispatch])
+
 
   return (
     <div className='container'>
@@ -178,6 +174,14 @@ function Inbox() {
 }
 
 export default Inbox;
+
+
+
+
+
+
+
+
 
 
 

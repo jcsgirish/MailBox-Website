@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { Accordion } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { messageActions } from '../../Store';
+import useHttp from '../Hooks/use-http';
+import { Button } from 'react-bootstrap';
 
 function removeSpecialChar(mail) {
     let newMail = "";
@@ -48,12 +50,34 @@ const Sent = () => {
         }
         let fetching = setTimeout(() => {
             fetchSentMessages();
-        }, 3000);
+        }, 1000);
         return () => {
             clearTimeout(fetching);
         }
-    }, [user, dispatch])
+    }, [dispatch,user])
 
+    const handleDelete = async (msg) => {
+        try {
+          console.log("Deleting mail:", msg.name);
+          let response = await fetch(
+            `https://mail-748ee-default-rtdb.firebaseio.com/mail/${user}/${msg.name}.json`,
+            {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json',
+              }
+            }
+          );
+          if (response.ok) {
+            console.log("Deleted successfully");
+            dispatch(messageActions.setSentMessages(sentMessages.filter(message => message.name !== msg.name)));
+          } else {
+            throw new Error("Failed to delete mail");
+          }
+        } catch (error) {
+          console.log("Error deleting mail:", error);
+        }
+      };
 
     return (
         <>
@@ -70,6 +94,9 @@ const Sent = () => {
                           <Accordion.Body>
                             <h5>Subject: {message.mailSubject}</h5>
                             <p>{message.mailContent}</p>
+                            <Button variant="danger" onClick={() => handleDelete(message)}>
+                          DELETE
+                        </Button>
                           </Accordion.Body>
                         </Accordion.Item>
                       </Accordion>
@@ -82,4 +109,4 @@ const Sent = () => {
         </>
       );
         };
-export default Sent;      
+export default Sent; 
