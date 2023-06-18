@@ -93,8 +93,11 @@ function ComposeMail() {
       <div className="App container">
         <h1 className="text-center"></h1>
         <input type="email" className="form-control" id="exampleInputEmail1" placeholder="To" ref={receiver} aria-describedby="emailHelp" />
+        <br></br>
 <input type="text" className="form-control" id="exampleInputSubject" placeholder="Subject" ref={subject} aria-describedby="textHelp" />
+<br></br>
 <textarea className='w-100' placeholder='Start Composing here' ref={mailBody}></textarea>
+<br></br>
 
         <Editor
           editorState={editorState}

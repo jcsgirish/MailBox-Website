@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { messageActions } from '../../Store';
 import { useHistory } from 'react-router-dom';
 import { Dot } from 'react-bootstrap-icons';
-import useHttp from '../Hooks/use-http';
 function removeSpecialChar(mail) {
   let newMail = "";
   for (let i = 0; i < mail.length; i++) {
@@ -121,7 +120,7 @@ function Inbox() {
     return () => {
       clearTimeout(fetching);
     }
-  }, [messages, user, dispatch])
+  }, [messages])
 
 
   return (
