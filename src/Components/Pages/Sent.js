@@ -5,6 +5,7 @@ import { messageActions } from '../../Store';
 import useHttp from '../Hooks/use-http';
 import { Button } from 'react-bootstrap';
 
+
 function removeSpecialChar(mail) {
     let newMail = "";
     for (let i = 0; i < mail.length; i++) {
