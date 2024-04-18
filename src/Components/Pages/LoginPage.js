@@ -71,7 +71,7 @@ const Login = () => {
                     })
                     if (responce.ok) {
                         const data = await responce.json();
-                        console.log(data.idToken);
+                        // console.log(data.idToken);
                         dispatch(authActions.setToken(data.idToken));
                         dispatch(authActions.setUser(enteredMail.current.value));
                         localStorage.setItem("token", data.idToken)

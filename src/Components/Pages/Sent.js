@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Accordion } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { messageActions } from '../../Store';
-import useHttp from '../Hooks/use-http';
+
 import { Button } from 'react-bootstrap';
 
 
@@ -57,28 +57,21 @@ const Sent = () => {
         }
     }, [dispatch,user])
 
-    const handleDelete = async (msg) => {
-        try {
-          console.log("Deleting mail:", msg.name);
-          let response = await fetch(
-            `https://mail-748ee-default-rtdb.firebaseio.com/mail/${user}/${msg.name}.json`,
-            {
-              method: 'DELETE',
-              headers: {
-                'Content-Type': 'application/json',
-              }
-            }
+    const handleDelete = async (message) => {
+      try {
+          const response = await fetch(
+              `https://mail-748ee-default-rtdb.firebaseio.com/mail/${user}/${message.name}.json`,
+              { method: 'DELETE' }
           );
-          if (response.ok) {
-            console.log("Deleted successfully");
-            dispatch(messageActions.setSentMessages(sentMessages.filter(message => message.name !== msg.name)));
-          } else {
-            throw new Error("Failed to delete mail");
+          if (!response.ok) {
+              throw new Error("Failed to delete mail");
           }
-        } catch (error) {
-          console.log("Error deleting mail:", error);
-        }
-      };
+          dispatch(messageActions.setSentMessages(sentMessages.filter(msg => msg.name !== message.name)));
+      } catch (error) {
+          console.error("Error deleting mail:", error);
+      }
+  };
+  
 
     return (
         <>
